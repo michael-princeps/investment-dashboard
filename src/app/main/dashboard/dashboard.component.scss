@@ -1,0 +1,94 @@
+.dashboard_info {
+  .info-card-title {
+    font-size: 1rem;
+  }
+
+  .card {
+    background-color: #fff;
+    width: 100%;
+    border: none;
+    border-radius: 1rem;
+    padding: 2rem 1rem;
+
+    &__orange {
+      border-right: 10px solid #f56b2a;
+    }
+
+    &__yellow {
+      border-right: 10px solid #F0AD4E;
+    }
+
+    &__dark {
+      border-right: 10px solid #1B4E63;
+    }
+
+    .card-currency {
+      font-weight: bolder;
+    }
+
+    img {
+      max-width: 1.5rem;
+      width: 100%;
+    }
+
+    .card-item {
+
+      .card-btn {
+        border-radius: 2rem;
+        // height: 3rem;
+      }
+    }
+
+    .card-icon-div {
+      flex: 0 1 70px;
+
+      img {
+        width: 70%;
+      }
+    }
+
+    .inv_deets {
+      width: 100%;
+
+      .prev-inv {
+        margin-top: 1rem;
+
+        // margin-bottom: .5rem;
+        small {
+          text-transform: capitalize;
+        }
+
+        .right-arrow {
+          color: grey;
+          font-size: .75rem;
+        }
+      }
+    }
+  }
+}
+
+.savings-table {
+  background-color: #fff;
+  border: none;
+  border-radius: 1rem;
+
+  .card-header {
+    border: none;
+    background-color: #fff;
+
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: .05rem;
+      text-transform: capitalize;
+    }
+  }
+  .table-header-action{
+    // padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .table {
+    background-color: white;
+  }
+}

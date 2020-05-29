@@ -1,1 +1,84 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~ng-zorro-antd/ng-zorro-antd.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+* {
+  font-family: 'Baloo 2', cursive;
+}
+
+.box-shadow {
+  box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03), 0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03), 0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05), 0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+  border-width: 0;
+  transition: all .2s
+}
+
+.text-pry {
+  color: #f56b2a
+}
+
+.text-gray {
+  color: #cccccc;
+}
+
+.font-bolder {
+  font-weight: bolder;
+}
+
+.oval-sm {
+  border-radius: .15rem !important;
+}
+
+.oval{
+    border-radius: 1rem !important;
+}
+
+.scale{
+    -webkit-transition: all .25s ease;
+    transition: all .25s ease;
+
+    &:hover{
+        z-index: 99;
+        -webkit-transform: translateY(-4px) scale(1.02);
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 14px 24px rgba(62,57,107,.2);
+    }
+}
+.btn-pry{
+    color: #fff !important;
+    background-color: #f56b2a !important;
+    border-color: #f56b2a !important;
+
+    &:hover{
+        color: #fff !important;
+    }
+}
+
+.btn-yellow{
+    color: #fff !important;
+    background-color: #F0AD4E !important;
+    border-color: #F0AD4E !important;
+
+    &:hover{
+        color: #fff !important;
+    }
+}
+
+.btn-dark{
+    color: #fff !important;
+    background-color: #1B4E63 !important;
+    border-color: #1B4E63 !important;
+
+    &:hover{
+        color: #fff !important;
+    }
+}
+
+.btn-green{
+    color: #fff !important;
+    background-color: #1be27f !important;
+    border-color: #1be27f !important;
+
+    &:hover{
+        color: #fff !important;
+    }
+}
