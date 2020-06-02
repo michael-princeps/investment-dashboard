@@ -1,80 +1,26 @@
-<!-- <nav class="navbar nav-white fixed-top">
-    <a class="text-pry font-bolder navbar-brand d-flex align-items-center" href="#">
-      <img src="assets/images/logo.png" width="40" height="40" class="d-inline-block align-top mr-1" alt="">
-      Credit Wallet
-    </a>
-  </nav>
-<div class="main">
-    <router-outlet></router-outlet>
-</div> -->
-<!-- <nz-layout>
-  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
-    <div class="logo"></div>
-    <ul nz-menu nzTheme="dark" nzMode="inline">
-      <li nz-submenu nzTitle="User" nzIcon="user">
-        <ul>
-          <li nz-menu-item>Tom</li>
-          <li nz-menu-item>Bill</li>
-          <li nz-menu-item>Alex</li>
-        </ul>
-      </li>
-      <li nz-submenu nzTitle="Team" nzIcon="team">
-        <ul>
-          <li nz-menu-item>Team 1</li>
-          <li nz-menu-item>Team 2</li>
-        </ul>
-      </li>
-      <li nz-menu-item>
-        <i nz-icon nzType="file"></i>
-        <span>File</span>
-      </li>
-    </ul>
-  </nz-sider>
-  <nz-layout>
-    <nz-header>
-      <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" (click)="isCollapsed = !isCollapsed"></i>
-    </nz-header>
-    <nz-content>
-      <div class="inner-content">
-      </div>
-    </nz-content>
-    <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
-  </nz-layout>
-</nz-layout> -->
 <nz-layout class="layout">
   <nz-header class="px-2 box-shadow heading d-flex justify-content-between">
-    <div class="logo">
+    <a class="logo" [routerLink]="['/']" >
       <img src="../../assets/images/logo.png" alt="">
       <span class="d-block ml-2">Credit Wallet</span>
-    </div>
-    <div class="">
-      <!-- <button class="d-md-none" nz-button (click)="openTemplate()"><fa-icon [icon]="faBars"></fa-icon></button>
-      <span class="ml-auto d-block">Need help? <a href="tel:+234(0)7085698828"> Call Us +234(0)7085698828</a></span> -->
-      <!-- <div class="dropdown">
-        <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span class="text-pry user_title"  >
-            <b>firstname lastname!</b>
-          </span>
-        </span>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
-        </div>
-      </div> -->
-      <span nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="nav-dropdown">
+    </a>
+    <div *ngIf="userDetails">
+      <button nz-button class="d-md-none" (click)="open()">
+        <fa-icon class="" [icon]="faBars"></fa-icon>
+      </button>
+      <span nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="nav-dropdown d-none d-md-block">
         <span class="avatar">
           <img src="assets/images/user.png" alt="">
         </span>
-        <span class="text-pry user_title"  >
-          <b>firstname lastname!</b>
-        </span>
+        <!-- <span class="text-pry user_title"  >
+          <b>{{userDetails}}</b>
+        </span> -->
       </span>
       <nz-dropdown-menu #menu="nzDropdownMenu">
         <ul nz-menu nzSelectable>
           <li nz-menu-item>Change Password</li>
           <li nz-menu-divider></li>
-          <li nz-menu-item>Log out</li>
+          <li nz-menu-item (click)="logOut()">Log out</li>
         </ul>
       </nz-dropdown-menu>
     </div>
@@ -82,12 +28,12 @@
   <nz-layout class="right-layout">
     <nz-sider>
       <div class="d-flex flex-column h-100">
-       <div class="logo">
+       <!-- <div class="logo">
          <img src="../../assets/images/logo.png" alt="">
          <span class="d-block ml-2">Credit Wallet</span>
-       </div>
-       <ul class="menu-one" nz-menu nzTheme="dark" nzMode="inline">
-         <li nz-menu-item>
+       </div> -->
+       <!-- <ul class="menu-one" nz-menu nzTheme="dark" nzMode="inline">
+         <li nz-menu-item [routerLink]="['/dashboard']" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact: true}">
            <fa-icon class="mr-2" [icon]="faSignOutAlt"></fa-icon>
            <span>Dashboard</span>
          </li>
@@ -95,13 +41,25 @@
            <fa-icon class="mr-2" [icon]="faChartPie"></fa-icon>
            <span>My Investment</span>
          </li>
-         <li nz-menu-item>
+         <li nz-menu-item [routerLink]="['/change-password']" routerLinkActive="router-link-active">
            <fa-icon class="mr-2" [icon]="faCog"></fa-icon>
            <span>Change Password</span>
          </li>
-       </ul>
+       </ul> -->
+      <div class="side-menu">
+        <ul class="side-menu-main">
+          <li [routerLink]="['/dashboard']" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact: true}">
+            <fa-icon class="mr-2" [icon]="faSignOutAlt"></fa-icon>
+           <span>Dashboard</span>
+          </li>
+          <li [routerLink]="['/change-password']" routerLinkActive="router-link-active">
+            <fa-icon class="mr-2" [icon]="faCog"></fa-icon>
+           <span>Change Password</span>
+          </li>
+         </ul>
+      </div>
        <ul class="mt-auto" nz-menu nzTheme="dark" nzMode="inline">
-         <li nz-menu-item>
+         <li nz-menu-item (click)="logOut()">
            <fa-icon class="mr-2" [icon]="faSignOutAlt"></fa-icon>
            <span>Log Out</span>
          </li>
@@ -115,7 +73,6 @@
     </nz-content>
   </nz-layout>
 </nz-layout>
-
 <ng-template #drawerTemplate let-drawerRef="drawerRef">
   <ul class="mobile-menu">
     <li>
@@ -140,4 +97,27 @@
   <span class="d-block ml-2">Credit Wallet</span>
 </div>
 </ng-template>
+
+<nz-drawer [nzClosable]="false" nzCloseOnNavigation nzWrapClassName="mobile-drawer" [nzVisible]="visible" nzPlacement="right" nzTitle="Menu" (nzOnClose)="close()">
+ <div class="d-flex flex-column h-100">
+  <div class="mobile-menu">
+    <ul class="mobile-menu-main">
+      <li [routerLink]="['/dashboard']" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact: true}">
+        <fa-icon class="mr-2" [icon]="faSignOutAlt"></fa-icon>
+       <span>Dashboard</span>
+      </li>
+      <li [routerLink]="['/change-password']" routerLinkActive="router-link-active">
+        <fa-icon class="mr-2" [icon]="faCog"></fa-icon>
+       <span>Change Password</span>
+      </li>
+     </ul>
+  </div>
+  <ul class="mobile-menu-main mt-auto">
+    <li (click)="logOut()" class="text-danger">
+      <fa-icon class="mr-2" [icon]="faSignOutAlt"></fa-icon>
+      <span>Log Out</span>
+    </li>
+   </ul>
+ </div>
+</nz-drawer>
 

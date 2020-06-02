@@ -18,6 +18,9 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
 @NgModule({
   declarations: [],
@@ -41,7 +44,10 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
     RouterModule,
     NzDrawerModule,
     NzTableModule,
-    NzPaginationModule
+    NzPaginationModule,
+    NzSelectModule,
+    NzFormModule,
+    NzDatePickerModule
   ],
   exports: [
     NzButtonModule,
@@ -60,8 +66,11 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
     NzResultModule,
     NzTableModule,
     NzPaginationModule,
+    NzFormModule,
     NzDrawerModule,
     NzModalModule,
+    NzSelectModule,
+    NzDatePickerModule,
     RouterModule,
   ]
 })

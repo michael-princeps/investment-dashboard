@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { faHistory, faSignOutAlt, faChartPie, faCog, faBars } from '@fortawesome/free-solid-svg-icons';
 import { NzDrawerRef, NzDrawerService } from 'ng-zorro-antd/drawer';
+import { InvestmentService } from '../core/investment.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -22,9 +24,15 @@ export class MainComponent implements OnInit {
   faChartPie = faChartPie;
   faCog = faCog;
   faBars = faBars;
-  constructor(private drawerService: NzDrawerService) { }
+  userDetails;
+  visible: boolean;
+  constructor(private drawerService: NzDrawerService, private service: InvestmentService, private router: Router) {
+    
+   }
 
   ngOnInit(): void {
+    this.userDetails = sessionStorage.getItem('loggedUser');
+    console.log(this.userDetails);
   }
 
   openTemplate(): void {
@@ -42,4 +50,17 @@ export class MainComponent implements OnInit {
     });
   }
 
+
+  logOut() {
+    this.service.logout().then(() => {
+      this.router.navigate(['/auth/login']);
+    });
+  }
+
+  open(): void {
+    this.visible = true;
+  }
+  close(): void {
+    this.visible = false;
+  }
 }

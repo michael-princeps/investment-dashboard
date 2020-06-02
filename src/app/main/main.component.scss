@@ -13,6 +13,8 @@
 .logo {
   height: 32px;
   // background: rgba(255, 255, 255, 0.2);
+  text-decoration: none;
+  color: #f56b2a;
   margin: 16px;
   display: flex;
   align-items: center;
@@ -63,6 +65,7 @@
 
 .layout {
   min-height: 100vh;
+
   nz-header {
     background: #fff;
     padding: 0;
@@ -71,10 +74,10 @@
     width: 100%;
     z-index: 990;
 
-    .nav-dropdown{
+    .nav-dropdown {
       cursor: pointer;
-      
-      .avatar{
+
+      .avatar {
         position: relative;
         display: inline-block;
         width: 2.5rem;
@@ -82,14 +85,14 @@
         vertical-align: bottom;
         white-space: nowrap;
         border-radius: 1000px;
-  
-        img{
+
+        img {
           max-width: 100%;
           width: 100%;
         }
       }
     }
-    
+
   }
 }
 
@@ -113,6 +116,41 @@ nz-sider {
   @media all and (min-width: 768px) {
     margin-left: 200px;
   }
+
+  .side-menu {
+    // font-size: 14px;
+    margin-top: 4.5rem;
+
+    &-main {
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      line-height: 0;
+      flex-direction: column;
+      background: transparent;
+      outline: 0;
+      box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .12), 0 6px 16px 0 rgba(0, 0, 0, .08), 0 9px 28px 8px rgba(0, 0, 0, .05);
+      transition: all .3s, width .2s;
+
+      li {
+        height: 2.5rem;
+        line-height: 2.5rem;
+        width: 100%;
+        outline: none;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        margin-top: .45rem;
+        margin-bottom: .45rem;
+        cursor: pointer;
+        color: rgba(255, 255, 255, .65);
+        display: block;
+        white-space: nowrap;
+        transition: color .3s cubic-bezier(.645, .045, .355, 1), border-color .3s cubic-bezier(.645, .045, .355, 1), all .3s cubic-bezier(.645, .045, .355, 1), padding .15s cubic-bezier(.645, .045, .355, 1);
+      }
+    }
+  }
 }
 
 .margin1 {
@@ -125,18 +163,16 @@ nz-sider {
 
 
 nz-content {
-  margin: 24px 16px 0;
+  margin: 5rem 1rem 1rem 1rem;
   overflow: initial;
 }
 
 .inner-content {
   background: #fff;
-
+  height: 100%;
+  padding: .5rem;
   @media all and (min-width: 768px) {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    padding-top: 5rem;
-    padding-bottom: 5rem;
+   padding: 1rem;
   }
 
   // text-align: center;
@@ -144,4 +180,38 @@ nz-content {
 
 nz-footer {
   text-align: center;
+}
+
+.mobile-menu {
+  // font-size: 14px;
+
+  &-main {
+    color: rgba(0,0,0,.85);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    line-height: 0;
+    flex-direction: column;
+    background: transparent;
+    outline: 0;
+    // box-shadow: 0 3px 6px -4px rgba(0, 0, 0, .12), 0 6px 16px 0 rgba(0, 0, 0, .08), 0 9px 28px 8px rgba(0, 0, 0, .05);
+    transition: all .3s, width .2s;
+
+    li {
+      // height: 2.5rem;
+      line-height: 2.5rem;
+      width: 100%;
+      outline: none;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      margin-top: .45rem;
+      margin-bottom: .45rem;
+      cursor: pointer;
+      color: rgba(0,0,0,.85);
+      display: block;
+      white-space: nowrap;
+      transition: color .3s cubic-bezier(.645, .045, .355, 1), border-color .3s cubic-bezier(.645, .045, .355, 1), all .3s cubic-bezier(.645, .045, .355, 1), padding .15s cubic-bezier(.645, .045, .355, 1);
+    }
+  }
 }

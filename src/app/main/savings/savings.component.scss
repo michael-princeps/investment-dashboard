@@ -1,0 +1,29 @@
+
+::ng-deep .ant-modal.investmentModal{
+    border-top: 3px solid #f56b2a;
+    width: 40rem !important;
+
+    .investForm{
+        nz-form-control{
+            input.input{
+                height: 40px;
+                border: 1px solid #d9d9d9;
+                padding: 0 11px;
+            }
+        }
+    }
+}
+
+.table-responsive{
+    .table-icon{
+        width: 100%;
+        max-width: 1rem;
+    }
+}
+
+.title-select{
+    width: 100%;
+}
+.table-heading{
+    background-color: #ccc !important;
+}

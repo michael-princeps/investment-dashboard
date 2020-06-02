@@ -40,7 +40,7 @@
     }
 
     .card-icon-div {
-      flex: 0 1 70px;
+    //   flex: 0 1 10;
 
       img {
         width: 70%;
@@ -72,6 +72,10 @@
   border: none;
   border-radius: 1rem;
 
+  &_border_dark{
+    border-right: 10px solid #1B4E63;
+  }
+
   .card-header {
     border: none;
     background-color: #fff;
@@ -90,5 +94,9 @@
 
   .table {
     background-color: white;
+  }
+
+  .table-icon{
+      width: 1rem;
   }
 }

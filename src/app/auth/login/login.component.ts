@@ -5,11 +5,19 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router } from '@angular/router';
 import { InvestmentService } from 'src/app/core/investment.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { TimeoutError } from 'rxjs';
 
 // tslint:disable-next-line: class-name
 interface login {
   email: string;
   password: string;
+}
+// tslint:disable-next-line: class-name
+interface loggedUserData {
+  data: any;
+  status: string;
+  token: string;
 }
 @Component({
   selector: 'app-login',
@@ -53,24 +61,34 @@ export class LoginComponent implements OnInit {
     this.loadingBar.start();
     this.loginForm.disable();
     this.loading = true;
-    this.service.login(formvalue).subscribe((data: any) => {
+    this.service.login(formvalue).subscribe((data: loggedUserData) => {
       this.loadingBar.stop();
       this.loginForm.enable();
       this.loading = false;
-      if (data.status === 'success') {
-        // sessionStorage.setItem('firstname', data.user.firstname);
-        // sessionStorage.setItem('lastname', data.user.lastname);
-        this.storeUser(data.user);
-        this.storeToken(data.token);
-        this.router.navigate(['/']);
+      console.log(data.data);
+      this.service.storeUser(data.data.email);
+      this.service.storeToken(data.token);
+      if (this.service.redirectUrl) {
+        this.router.navigateByUrl(this.service.redirectUrl);
       } else {
-        this.message.error(data.message);
+        this.router.navigate(['/']);
       }
     }, (err: any) => {
       this.loadingBar.stop();
       this.loginForm.enable();
       this.loading = false;
-      this.message.error('Error connecting to server, please check your internet connection and try again');
+      console.log(err);
+      if (err instanceof HttpErrorResponse) {
+        if (err.status === 401) {
+          this.loginForm.setErrors({
+            invalid: err.error.message
+          });
+        } else {
+          this.message.error('Error connecting to server, please check your internet connection and try again');
+        }
+      } else if (err instanceof TimeoutError) {
+        this.message.error('Connection Timeout. Please try again later');
+      }
     });
   }
 
