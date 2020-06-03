@@ -26,12 +26,15 @@ export class SavingsComponent implements OnInit {
   GROUP_SEPARATOR = ',';
   amount: any;
   isAdding: boolean;
+  applySuccess: boolean;
+  notification: any;
   constructor(private service: InvestmentService,
               private route: ActivatedRoute, private loadingBar: LoadingBarService,
               private message: NzMessageService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    console.log(this.service.getAuthToken())
+    this.notification = JSON.parse(window.localStorage.getItem("notification_investor_CW"));
+    console.log(this.notification);
     this.initForm();
     this.route.params.subscribe((param: Params) => {
       this.savingsId = param.id;
@@ -77,6 +80,7 @@ export class SavingsComponent implements OnInit {
     this.modalRef.destroy();
     this.modalRef.afterClose.subscribe(() => {
       this.newInvestmentForm.reset();
+      this.applySuccess = false;
     });
   }
 
@@ -159,30 +163,32 @@ export class SavingsComponent implements OnInit {
     if (this.newInvestmentForm.invalid) {
       return;
     }
-
+    this.applySuccess = false;
     const newinvestment = {...this.newInvestmentForm.value, savings_id: this.savingsData.savings_id};
     this.loadingBar.start();
     this.isAdding = true;
     this.newInvestmentForm.disable();
-    this.service.addNewInvestment(newinvestment).subscribe((data: any) => {
-      this.isAdding = false;
-      this.newInvestmentForm.enable();
-      this.loadingBar.stop();
-      console.log(data);
-    }, (err: any) => {
-      this.newInvestmentForm.enable();
-      this.isAdding = false;
-      this.loadingBar.stop();
-      console.log(err);
-      if (err instanceof HttpErrorResponse) {
-        if (err.status === 401) {
+    // this.service.addNewInvestment(newinvestment).subscribe((data: any) => {
+    //   this.applySuccess = true;
+    //   this.isAdding = false;
+    //   this.newInvestmentForm.enable();
+    //   this.loadingBar.stop();
+    //   console.log(data);
+    // }, (err: any) => {
+    //   this.newInvestmentForm.enable();
+    //   this.applySuccess = false;
+    //   this.isAdding = false;
+    //   this.loadingBar.stop();
+    //   console.log(err);
+    //   if (err instanceof HttpErrorResponse) {
+    //     if (err.status === 401) {
 
-        } else {
-          this.message.error('Error connecting to server, please check your internet connection and try again');
-        }
-      } else if (err instanceof TimeoutError) {
-        this.message.error('Connection Timeout. Please try again later');
-      }
-    })
+    //     } else {
+    //       this.message.error('Error connecting to server, please check your internet connection and try again');
+    //     }
+    //   } else if (err instanceof TimeoutError) {
+    //     this.message.error('Connection Timeout. Please try again later');
+    //   }
+    // })
   }
 }

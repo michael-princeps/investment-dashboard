@@ -3,10 +3,10 @@
     <nz-table nzTemplateMode nzBordered>
       <thead>
         <tr>
-          <th nzWidth="60px"></th>
-          <th nzWidth="30%">Savings Account No.</th>
-          <th nzWidth="30%">Savings Balance</th>
-          <th nzWidth="30%">Maturity Date</th>
+          <th nzWidth="60px" class="table-heading"></th>
+          <th nzWidth="30%" class="table-heading">Savings Account No.</th>
+          <th nzWidth="30%" class="table-heading">Savings Balance</th>
+          <th nzWidth="30%" class="table-heading">Maturity Date</th>
           <!-- <th nzWidth="60px"></th> -->
         </tr>
       </thead>
@@ -27,9 +27,12 @@
   </div>
   <br>
   <div class="d-flex align-items-center">
-    <button nz-button nzType="primary" class="d-flex align-items-center btn btn-pry mr-2" (click)="showAddInvestMentModal()">Add fund</button>
+    <button nz-button nzType="primary" class="d-flex align-items-center btn btn-pry mr-2"
+      (click)="showAddInvestMentModal()">Add fund</button>
     <!-- <button class="btn btn-dark">Export PDF</button> -->
-    <button nz-button nzType="primary" class="d-flex align-items-center btn btn-dark" (click)="generatePDF(savingsData.savings_id)" [nzLoading]="isLoading">Export as PDF</button>
+    <button nz-button nzType="primary" class="d-flex align-items-center btn btn-dark"
+      (click)="generatePDF(savingsData.savings_id)"
+      [nzLoading]="isLoading">{{isLoading ? 'Exporting' : 'Export as PDF'}}</button>
   </div>
   <br>
   <div class="table-responsive mt-3">
@@ -58,8 +61,8 @@
   </div>
 </ng-container>
 
-<nz-modal #investModal nzWrapClassName="investmentModal" nzClassName="investmentModal" [nzFooter]="null" nzMaskClosable="false" nzKeyboard="false"
-  [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()">
+<nz-modal #investModal nzWrapClassName="investmentModal" nzClassName="investmentModal" [nzFooter]="null"
+  nzMaskClosable="false" nzKeyboard="false" [(nzVisible)]="isVisible" (nzOnCancel)="handleCancel()">
   <div>
     <br>
     <!-- <form [formGroup]="newInvestmentForm">
@@ -93,30 +96,79 @@
 
 
 
-    <form nz-form class="investForm" [formGroup]="newInvestmentForm">
-        <h2 class="font-bold text-pry text-center">Add Investment</h2>
-        <div  class="alert alert-info text-center">
-            <small>
-                Please note that adding an investment will automatically extend this current investment maturity date by the new selected  duration
-            </small>
+    <ng-container *ngIf="applySuccess; else noSuccess">
+      <h2 class="font-bold text-pry text-center">Details</h2>
+      <br>
+      <div class="table-responsive">
+        <table class="table table-stripped  table-bordered">
+          <tbody>
+            <tr>
+              <th class="p-4 font-1-5">Amount</th>
+              <td class="p-4 font-1-5">{{10000 | currency:'₦'}}</td>
+            </tr>
+            <tr>
+              <th class="p-4 font-1-5">Interest Rate</th>
+              <td class="p-4 font-1-5">12% per annum (0.1% per month)</td>
+            </tr>
+            <tr>
+              <th class="p-4 font-1-5">Total Interest</th>
+              <td class="p-4 font-1-5">{{10000  | currency:'₦ '}}</td>
+            </tr>
+            <tr>
+              <th class="p-4 font-1-5">Investment Start Date</th>
+              <td class="p-4 font-1-5">07-06-2020</td>
+            </tr>
+            <tr>
+              <th class="p-4 font-1-5">First Month Interest</th>
+              <td class="p-4 font-1-5">{{1290 | currency:'₦ '}}</td>
+            </tr>
+            <tr>
+              <th class="p-4 font-1-5">Investment End Date</th>
+              <td class="p-4 font-1-5">07-06-2020</td>
+            </tr>
+            <tr>
+              <th class="p-4 font-1-5">Subsequent Monthly Interest</th>
+              <td class="p-4 font-1-5">{{2345 | currency:'₦ '}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+    <ng-template #noSuccess>
+        <br>
+      <ng-container *ngIf="notification.status === 1">
+        <div class="mt-4 alert alert-info text-center">
+          <small>
+            {{notification.message}}
+          </small>
         </div>
+      </ng-container>
+      <div class="alert alert-info text-center">
+        <small>
+          Please note that adding an investment will automatically extend this current investment maturity date by the
+          new selected duration
+        </small>
+      </div>
+      <form *ngIf="notification.status !== 1" nz-form class="investForm" [formGroup]="newInvestmentForm">
+        <h2 class="font-bold text-pry text-center">Add Investment</h2>
         <div nz-row nzGutter="16">
           <div nz-col class="gutter-row" nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" nzOffset="0">
             <nz-form-item class="d-block">
               <nz-form-label class="">Amount</nz-form-label>
               <nz-form-control nzHasFeedback [nzErrorTip]="amountError">
-                <input nzSize="large" type="text" formControlName="amount" (input)="changeNum($event)" nz-input class="input w-100"/>
+                <input nzSize="large" type="text" formControlName="amount" (input)="changeNum($event)" nz-input
+                  class="input w-100" />
                 <ng-template #amountError let-control>
-                    <ng-container *ngIf="control.hasError('required')">
-                      Please enter investment amount!
-                    </ng-container>
-                    <ng-container *ngIf="control.hasError('minAmt')">
-                      Loan Amount must not be less than ₦100,000!
-                    </ng-container>
-                    <ng-container *ngIf="control.hasError('amount')">
-                      Invalid Loan Amount!
-                    </ng-container>
-                  </ng-template>
+                  <ng-container *ngIf="control.hasError('required')">
+                    Please enter investment amount!
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('minAmt')">
+                    Loan Amount must not be less than ₦100,000!
+                  </ng-container>
+                  <ng-container *ngIf="control.hasError('amount')">
+                    Invalid Loan Amount!
+                  </ng-container>
+                </ng-template>
               </nz-form-control>
             </nz-form-item>
           </div>
@@ -124,8 +176,7 @@
             <nz-form-item class="d-block">
               <nz-form-label class="">Duration</nz-form-label>
               <nz-form-control nzErrorTip="Please select your gender!">
-                <nz-select nzAllowClear nzSize="large" class="title-select"
-                  formControlName="duration">
+                <nz-select nzAllowClear nzSize="large" class="title-select" formControlName="duration">
                   <nz-option nzLabel="6 months" nzValue="6"></nz-option>
                   <nz-option nzLabel="12 months" nzValue="12"></nz-option>
                 </nz-select>
@@ -134,22 +185,24 @@
           </div>
         </div>
         <div nz-row nzGutter="16">
-            <div nz-col class="gutter-row" nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" nzOffset="0">
-                <nz-form-item class="d-block">
-                  <nz-form-label class="">Investment Start Date</nz-form-label>
-                  <nz-form-control nzErrorTip="Please select your start date">
-                    <nz-date-picker nzShowToday="true" nzSize="large" class="w-100"
-                      formControlName="investment_start_date" (change)="onChange($event)">
-                    </nz-date-picker>
-                  </nz-form-control>
-                </nz-form-item>
-              </div>   
+          <div nz-col class="gutter-row" nzXs="24" nzSm="24" nzMd="24" nzLg="24" nzXl="24" nzOffset="0">
+            <nz-form-item class="d-block">
+              <nz-form-label class="">Investment Start Date</nz-form-label>
+              <nz-form-control nzErrorTip="Please select your start date">
+                <nz-date-picker nzShowToday="true" nzSize="large" class="w-100" formControlName="investment_start_date"
+                  (change)="onChange($event)">
+                </nz-date-picker>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
         </div>
         <div class="mt-2 d-flex justify-content-center align-items-center">
-            <button nz-button nzType="primary" type="button" [nzLoading]="isAdding" nzSize="large" class="w-75" (click)="addInvestment()" [disabled="isAdding || newInvestmentForm.invalid"]>
-                {{isAdding ? 'Adding...' : 'Add Investment'}}
-            </button>
+          <button nz-button nzType="primary" type="button" [nzLoading]="isAdding" nzSize="large" class="w-75"
+            (click)="addInvestment()" [disabled]="isAdding || newInvestmentForm.invalid">
+            {{isAdding ? 'Adding...' : 'Add Investment'}}
+          </button>
         </div>
       </form>
+    </ng-template>
   </div>
 </nz-modal>

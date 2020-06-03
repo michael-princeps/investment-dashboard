@@ -1,3 +1,14 @@
+::ng-deep .ant-modal.infoModal{
+    border-top: 3px solid #f56b2a;
+    width: 40rem !important;
+
+    .table-responsive{
+        .table-icon{
+            width: 1rem;
+        }
+    }
+}
+
 .dashboard_info {
   .info-card-title {
     font-size: 1rem;

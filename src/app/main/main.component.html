@@ -18,7 +18,7 @@
       </span>
       <nz-dropdown-menu #menu="nzDropdownMenu">
         <ul nz-menu nzSelectable>
-          <li nz-menu-item>Change Password</li>
+          <li nz-menu-item [routerLink]="['/change-password']">Change Password</li>
           <li nz-menu-divider></li>
           <li nz-menu-item (click)="logOut()">Log out</li>
         </ul>
@@ -73,30 +73,6 @@
     </nz-content>
   </nz-layout>
 </nz-layout>
-<ng-template #drawerTemplate let-drawerRef="drawerRef">
-  <ul class="mobile-menu">
-    <li>
-      <fa-icon class="mr-2" [icon]="faSignOutAlt"></fa-icon>
-      <span>Dashboard</span>
-    </li>
-    <li>
-      <fa-icon class="mr-2" [icon]="faChartPie"></fa-icon>
-      <span>My Investment</span>
-    </li>
-    <li>
-      <fa-icon class="mr-2" [icon]="faCog"></fa-icon>
-      <span>Change Password</span>
-    </li>
-  </ul>
-  <br />
-</ng-template>
-
-<ng-template #drawerHeaderTemplate>
-<div class="drawer_header">
-  <img src="../../assets/images/logo.png" alt="">
-  <span class="d-block ml-2">Credit Wallet</span>
-</div>
-</ng-template>
 
 <nz-drawer [nzClosable]="false" nzCloseOnNavigation nzWrapClassName="mobile-drawer" [nzVisible]="visible" nzPlacement="right" nzTitle="Menu" (nzOnClose)="close()">
  <div class="d-flex flex-column h-100">

@@ -19,8 +19,13 @@ export class DashboardComponent implements OnInit {
   faArrowRight = faArrowRight;
   dashboard: any;
   dashboardSavings: any;
+  isVisible: boolean;
+  transactions: any[] = [];
+  modalHeader: string;
+  transactionsTotal: any;
+  investmentMaturity: any;
   constructor(private service: InvestmentService,
-    private loadingBar: LoadingBarService, private message: NzMessageService, private router: Router) { }
+              private loadingBar: LoadingBarService, private message: NzMessageService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadDashboard();
@@ -33,6 +38,9 @@ export class DashboardComponent implements OnInit {
       this.loadingBar.stop();
       this.dashboard = data;
       this.dashboardSavings = data.total_savings;
+      this.investmentMaturity = data.maturity;
+      window.localStorage.setItem('notification_investor_CW', JSON.stringify(data.notification));
+      // this.service.saveNotification(data.notification);
       console.log(this.dashboard);
     }, (err: any) => {
       this.loadingBar.stop();
@@ -42,7 +50,7 @@ export class DashboardComponent implements OnInit {
         if (err.status === 401) {
           //  this.message.error(err.error.message);
         } else if (err.status === 400) {
-           this.message.error(err.error.message);
+          this.message.error(err.error.message);
         } else {
           this.message.error('Error connecting to server, please check your internet connection and try again');
         }
@@ -55,5 +63,29 @@ export class DashboardComponent implements OnInit {
   viewSavings(id) {
     console.log(id);
     this.router.navigate(['/savings/', id]);
+  }
+
+  showInfoModal(transaction, type) {
+    this.transactions = transaction;
+    switch (type) {
+      case 1:
+        this.modalHeader = 'Total Investment Details';
+        break;
+      case 2:
+        this.modalHeader = 'Total Interest Earned Details';
+        break;
+      case 3:
+        this.modalHeader = 'Total Interest Receivable Details';
+        break;
+      default:
+        this.modalHeader = 'Total Investment Details';
+        break;
+    }
+    // console.log(this.transactions);
+    this.transactionsTotal = this.transactions.reduce((acc, sum) => parseFloat(sum.transaction_amount) + acc, 0);
+    this.isVisible = true;
+  }
+  handleCancel() {
+    this.isVisible = false;
   }
 }
