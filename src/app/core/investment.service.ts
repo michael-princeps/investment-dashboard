@@ -21,6 +21,10 @@ export class InvestmentService {
     return sessionStorage.getItem('accessToken');
   }
 
+  getAuthV1Token() {
+    return sessionStorage.getItem('v1_token');
+  }
+
   saveNotification(notification) {
     return sessionStorage.setItem('notification', notification);
   }

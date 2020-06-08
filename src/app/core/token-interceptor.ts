@@ -14,11 +14,12 @@ export class TokenInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (this.service.isLoggedIn()) {
             const token = this.service.getAuthToken();
-            req = req.clone({
-                setHeaders: {
-                    Authorization : `Bearer ${token}`
-                }
-            });
+            const tokenV1 = this.service.getAuthV1Token();
+            if (req.url.includes('compound.ng')) {
+                req = this.addToken(req, token);
+            } else {
+                req = this.addToken(req, tokenV1);
+            }
         }
         return next.handle(req).pipe(catchError((err: any) => {
             if (err instanceof HttpErrorResponse && err.status === 401) {
@@ -30,4 +31,15 @@ export class TokenInterceptor implements HttpInterceptor {
             return throwError(err);
         }));
     }
+
+
+    private addToken(req: HttpRequest<any>, token: any) {
+        return req.clone({
+            setHeaders: {
+                Authorization : `Bearer ${token}`
+            }
+        });
+    }
 }
+
+
