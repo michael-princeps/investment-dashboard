@@ -68,4 +68,12 @@ export class InvestmentService {
   addNewInvestment(credentials: {email: string}) {
     return this.http.post(`${environment.investmentsURL}/stage2/add`, credentials).pipe();
   }
+  
+  initiateInvestment(credentials: {amount: any, duration: number, savings_id: string, investment_start_date: string}) {
+    return this.http.post(`${environment.investmentsURL}/merge/initiate`, credentials).pipe();
+  }
+
+  startInvestment(credentials: {amount: any, duration: number, savings_id: string, investment_start_date: string}) {
+    return this.http.post(`${environment.investmentsURL}/merge/start`, credentials).pipe();
+  }
 }

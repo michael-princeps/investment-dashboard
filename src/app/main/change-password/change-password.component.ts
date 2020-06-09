@@ -44,11 +44,11 @@ export class ChangePasswordComponent implements OnInit {
     if (this.changePasswordForm.invalid) {
       return;
     }
-    console.log(value);
+    //console.log(value);
     this.loadingBar.start();
     this.loading = true;
     this.service.changePassword(value).subscribe((data: any) => {
-      console.log(data);
+      //console.log(data);
       this.loading = false;
       this.message.success(data.message);
       this.service.storeToken(data.token);
@@ -58,7 +58,7 @@ export class ChangePasswordComponent implements OnInit {
       this.loadingBar.stop();
       this.changePasswordForm.enable();
       this.loading = false;
-      console.log(err);
+      //console.log(err);
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401) {
           this.changePasswordForm.setErrors({

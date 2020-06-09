@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
       this.loadingBar.stop();
       this.loginForm.enable();
       this.loading = false;
-      // console.log(data);
+      // //console.log(data);
       this.service.storeUser(data.data.email);
       this.service.storeToken(data.token);
       if (this.service.redirectUrl) {
@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
       this.loadingBar.stop();
       this.loginForm.enable();
       this.loading = false;
-      console.log(err);
+      //console.log(err);
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401) {
           this.loginForm.setErrors({

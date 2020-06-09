@@ -32,7 +32,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.userDetails = sessionStorage.getItem('loggedUser');
-    console.log(this.userDetails);
+    //console.log(this.userDetails);
   }
 
   openTemplate(): void {
@@ -42,11 +42,11 @@ export class MainComponent implements OnInit {
     });
 
     drawerRef.afterOpen.subscribe(() => {
-      console.log('Drawer(Template) open');
+      //console.log('Drawer(Template) open');
     });
 
     drawerRef.afterClose.subscribe(() => {
-      console.log('Drawer(Template) close');
+      //console.log('Drawer(Template) close');
     });
   }
 

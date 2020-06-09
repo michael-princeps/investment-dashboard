@@ -97,41 +97,31 @@
 
 
     <ng-container *ngIf="applySuccess; else noSuccess">
-      <h2 class="font-bold text-pry text-center">Details</h2>
+      <h2 class="font-bold text-pry text-center">Interest Breakdown</h2>
       <br>
       <div class="table-responsive">
         <table class="table table-stripped  table-bordered">
+          <thead>
+            <tr>
+              <th class="table-heading"></th>
+              <th class="table-heading">Percentage (%)</th>
+              <th class="table-heading">Due date</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr>
-              <th class="p-4 font-1-5">Amount</th>
-              <td class="p-4 font-1-5">{{10000 | currency:'₦'}}</td>
-            </tr>
-            <tr>
-              <th class="p-4 font-1-5">Interest Rate</th>
-              <td class="p-4 font-1-5">12% per annum (0.1% per month)</td>
-            </tr>
-            <tr>
-              <th class="p-4 font-1-5">Total Interest</th>
-              <td class="p-4 font-1-5">{{10000  | currency:'₦ '}}</td>
-            </tr>
-            <tr>
-              <th class="p-4 font-1-5">Investment Start Date</th>
-              <td class="p-4 font-1-5">07-06-2020</td>
-            </tr>
-            <tr>
-              <th class="p-4 font-1-5">First Month Interest</th>
-              <td class="p-4 font-1-5">{{1290 | currency:'₦ '}}</td>
-            </tr>
-            <tr>
-              <th class="p-4 font-1-5">Investment End Date</th>
-              <td class="p-4 font-1-5">07-06-2020</td>
-            </tr>
-            <tr>
-              <th class="p-4 font-1-5">Subsequent Monthly Interest</th>
-              <td class="p-4 font-1-5">{{2345 | currency:'₦ '}}</td>
+            <tr *ngFor="let interest of interests; let i = index">
+              <th class="p-4 font-1-5">Interest {{i+1}}</th>
+              <th class="p-4 font-1-5">{{interest.percent}}</th>
+              <td class="p-4 font-1-5">{{interest.duedate}}</td>
             </tr>
           </tbody>
         </table>
+      </div>
+      <div class="mt-2 d-flex justify-content-center align-items-center">
+        <button nz-button nzType="primary" type="button" [nzLoading]="isAccepting" nzSize="large" class="w-75"
+        (click)="acceptInvestment()" [disabled]="isAccepting">
+        {{isAccepting ? 'Accepting' : 'Accept'}}
+        </button>
       </div>
     </ng-container>
     <ng-template #noSuccess>
@@ -190,7 +180,7 @@
               <nz-form-label class="">Investment Start Date</nz-form-label>
               <nz-form-control nzErrorTip="Please select your start date">
                 <nz-date-picker nzShowToday="true" nzSize="large" class="w-100" formControlName="investment_start_date"
-                  (change)="onChange($event)">
+                  (ngModelChange)="onChange($event)">
                 </nz-date-picker>
               </nz-form-control>
             </nz-form-item>

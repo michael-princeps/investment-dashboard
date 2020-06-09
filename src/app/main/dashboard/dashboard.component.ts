@@ -41,10 +41,10 @@ export class DashboardComponent implements OnInit {
       this.investmentMaturity = data.maturity;
       window.localStorage.setItem('notification_investor_CW', JSON.stringify(data.notification));
       // this.service.saveNotification(data.notification);
-      console.log(this.dashboard);
+      //console.log(this.dashboard);
     }, (err: any) => {
       this.loadingBar.stop();
-      // console.log(err);
+      // //console.log(err);
       if (err instanceof HttpErrorResponse) {
         this.loadingBar.stop();
         if (err.status === 401) {
@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit {
   }
 
   viewSavings(id) {
-    console.log(id);
+    //console.log(id);
     this.router.navigate(['/savings/', id]);
   }
 
@@ -81,7 +81,7 @@ export class DashboardComponent implements OnInit {
         this.modalHeader = 'Total Investment Details';
         break;
     }
-    // console.log(this.transactions);
+    // //console.log(this.transactions);
     this.transactionsTotal = this.transactions.reduce((acc, sum) => parseFloat(sum.transaction_amount) + acc, 0);
     this.isVisible = true;
   }

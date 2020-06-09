@@ -7,11 +7,17 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { TimeoutError } from 'rxjs';
 import { NzModalRef } from 'ng-zorro-antd/modal/modal-ref';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import {fadeOutLeftAnimation, fadeInRightAnimation} from 'angular-animations'
 
 @Component({
   selector: 'app-savings',
   templateUrl: './savings.component.html',
-  styleUrls: ['./savings.component.scss']
+  styleUrls: ['./savings.component.scss'],
+  animations: [
+    fadeOutLeftAnimation(),
+    fadeInRightAnimation()
+  ]
 })
 export class SavingsComponent implements OnInit {
   @ViewChild('investModal') modalRef: NzModalRef;
@@ -28,17 +34,19 @@ export class SavingsComponent implements OnInit {
   isAdding: boolean;
   applySuccess: boolean;
   notification: any;
+  interests: any[] = [];
+  isAccepting: boolean;
+  newinvestment: any;
   constructor(private service: InvestmentService,
               private route: ActivatedRoute, private loadingBar: LoadingBarService,
-              private message: NzMessageService, private fb: FormBuilder) { }
+              private message: NzMessageService, private fb: FormBuilder, private notify: NzNotificationService) { }
 
   ngOnInit(): void {
-    this.notification = JSON.parse(window.localStorage.getItem("notification_investor_CW"));
-    console.log(this.notification);
+    this.notification = JSON.parse(window.localStorage.getItem('notification_investor_CW'));
     this.initForm();
     this.route.params.subscribe((param: Params) => {
       this.savingsId = param.id;
-      console.log(this.savingsId);
+      //console.log(this.savingsId);
       this.fetchSavingsDetails(this.savingsId);
     });
   }
@@ -57,10 +65,10 @@ export class SavingsComponent implements OnInit {
       this.savings = data;
       this.savingsTransactions = data.saving_transactions;
       this.savingsData = data.savings;
-      console.log(this.savings);
+      //console.log(this.savings);
     }, (err: any) => {
       this.loadingBar.stop();
-      // console.log(err);
+      // //console.log(err);
       if (err instanceof HttpErrorResponse) {
         this.loadingBar.stop();
         if (err.status === 401) {
@@ -89,12 +97,12 @@ export class SavingsComponent implements OnInit {
     this.isLoading = true;
     this.service.generatePDF(savingsId).subscribe((data: any) => {
       this.isLoading = false;
-      console.log(data);
+      //console.log(data);
       window.open(data.url, '_blank');
     }, (err: any) => {
       this.isLoading = false;
       this.loadingBar.stop();
-      console.log(err);
+      //console.log(err);
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401) {
          
@@ -155,8 +163,10 @@ export class SavingsComponent implements OnInit {
   }
 
 
-  onChange(event){
-    console.log(event)
+  onChange(event: Date){
+    if (event) {
+      //console.log(event.toISOString().slice(0, 10));
+    }
   }
 
   addInvestment() {
@@ -164,31 +174,64 @@ export class SavingsComponent implements OnInit {
       return;
     }
     this.applySuccess = false;
-    const newinvestment = {...this.newInvestmentForm.value, savings_id: this.savingsData.savings_id};
+    this.newinvestment = {...this.newInvestmentForm.value, savings_id: this.savingsData.savings_id};
+    this.newinvestment.investment_start_date = this.newinvestment.investment_start_date.toISOString().slice(0, 10);
+    this.newinvestment.amount = this.unFormat(this.newinvestment.amount)
     this.loadingBar.start();
     this.isAdding = true;
     this.newInvestmentForm.disable();
-    // this.service.addNewInvestment(newinvestment).subscribe((data: any) => {
-    //   this.applySuccess = true;
-    //   this.isAdding = false;
-    //   this.newInvestmentForm.enable();
-    //   this.loadingBar.stop();
-    //   console.log(data);
-    // }, (err: any) => {
-    //   this.newInvestmentForm.enable();
-    //   this.applySuccess = false;
-    //   this.isAdding = false;
-    //   this.loadingBar.stop();
-    //   console.log(err);
-    //   if (err instanceof HttpErrorResponse) {
-    //     if (err.status === 401) {
+    //console.log(this.newinvestment);
+    this.service.initiateInvestment(this.newinvestment).subscribe((data: any) => {
+      this.applySuccess = true;
+      this.isAdding = false;
+      this.newInvestmentForm.enable();
+      this.interests = data;
+      this.loadingBar.stop();
+      //console.log(data);
+    }, (err: any) => {
+      this.newInvestmentForm.enable();
+      this.applySuccess = false;
+      this.isAdding = false;
+      this.loadingBar.stop();
+      //console.log(err);
+      if (err instanceof HttpErrorResponse) {
+        if (err.status === 401) {
 
-    //     } else {
-    //       this.message.error('Error connecting to server, please check your internet connection and try again');
-    //     }
-    //   } else if (err instanceof TimeoutError) {
-    //     this.message.error('Connection Timeout. Please try again later');
-    //   }
-    // })
+        } else {
+          this.message.error('Error connecting to server, please check your internet connection and try again');
+        }
+      } else if (err instanceof TimeoutError) {
+        this.message.error('Connection Timeout. Please try again later');
+      }
+    });
+  }
+
+  acceptInvestment() {
+    this.loadingBar.start();
+    this.isAccepting = true;
+    //console.log(this.newinvestment);
+    this.service.startInvestment(this.newinvestment).subscribe((data: any) => {
+      this.isAccepting = false;
+      this.loadingBar.stop();
+      //console.log(data);
+      if (data.status === 'success') {
+        this.handleCancel();
+        // this.message.success(data.message);
+        this.notify.success('Success', data.message);
+      }
+    }, (err: any) => {
+      this.isAccepting = false;
+      this.loadingBar.stop();
+      //console.log(err);
+      if (err instanceof HttpErrorResponse) {
+        if (err.status === 401) {
+
+        } else {
+          this.message.error('Error connecting to server, please check your internet connection and try again');
+        }
+      } else if (err instanceof TimeoutError) {
+        this.message.error('Connection Timeout. Please try again later');
+      }
+    });
   }
 }
