@@ -11,41 +11,56 @@ export class InvestmentService {
 
 
   storeToken(token) {
-    sessionStorage.setItem('accessToken', token);
+    return window.sessionStorage.setItem('cw-accessToken', token);
   }
-
+  storeSetNewPasswordToken(token) {
+    return window.sessionStorage.setItem('cw-new-password-token', token);
+  }
   storeUser(user) {
-    sessionStorage.setItem('loggedUser', user);
+    return window.sessionStorage.setItem('cw-loggedUser', user);
   }
   getAuthToken() {
-    return sessionStorage.getItem('accessToken');
+    return window.sessionStorage.getItem('cw-accessToken');
   }
-
+  getTokenForSetNewPassword() {
+    return window.sessionStorage.getItem('cw-new-password-token');
+  }
   getAuthV1Token() {
-    return sessionStorage.getItem('v1_token');
+    return window.sessionStorage.getItem('cw-v1_token');
   }
 
   saveNotification(notification) {
-    return sessionStorage.setItem('notification', notification);
+    return window.sessionStorage.setItem('notification', notification);
   }
 
   getNotification() {
-    return sessionStorage.getItem('notification');
+    return window.sessionStorage.getItem('notification');
   }
 
   isLoggedIn() {
     return !! this.getAuthToken();
   }
 
+  isInvited() {
+    return !! this.getTokenForSetNewPassword();
+  }
+
   login(credentials: {email: string, password: string}) {
     return this.http.post(`${environment.investmentsURL}/login`, credentials).pipe();
   }
 
+  inviteInvestor(credentials: {email: string}) {
+    return this.http.post(`${environment.investmentsURL}/invite`, credentials).pipe();
+  }
   changePassword(credentials) {
     return this.http.post(`${environment.investmentsURL}/change-password`, credentials).pipe();
   }
+
+  setPassword(credentials) {
+    return this.http.post(`${environment.investmentsURL}/set-password`, credentials).pipe();
+  }
   async logout() {
-    await sessionStorage.removeItem('accessToken');
+    await sessionStorage.removeItem('cw-accessToken');
     await sessionStorage.clear();
   }
   resetpassword(credentials: {email: string}) {
@@ -76,4 +91,6 @@ export class InvestmentService {
   startInvestment(credentials: {amount: any, duration: number, savings_id: string, investment_start_date: string}) {
     return this.http.post(`${environment.investmentsURL}/merge/start`, credentials).pipe();
   }
+
+  
 }

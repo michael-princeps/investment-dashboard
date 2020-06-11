@@ -34,9 +34,16 @@ export class SavingsComponent implements OnInit {
   isAdding: boolean;
   applySuccess: boolean;
   notification: any;
-  interests: any[] = [];
+  // interests: any[] = [];
   isAccepting: boolean;
   newinvestment: any;
+  firstmonthpercent: any;
+  investmentenddate: any;
+  percent: any;
+  investmentAmt: any;
+  startdate: any;
+  investments: any[] = [];
+  interest: any;
   constructor(private service: InvestmentService,
               private route: ActivatedRoute, private loadingBar: LoadingBarService,
               private message: NzMessageService, private fb: FormBuilder, private notify: NzNotificationService) { }
@@ -180,14 +187,18 @@ export class SavingsComponent implements OnInit {
     this.loadingBar.start();
     this.isAdding = true;
     this.newInvestmentForm.disable();
+    this.investmentAmt = this.unFormat(this.newinvestment.amount);
+    this.startdate = this.newinvestment.investment_start_date;
     //console.log(this.newinvestment);
     this.service.initiateInvestment(this.newinvestment).subscribe((data: any) => {
       this.applySuccess = true;
       this.isAdding = false;
       this.newInvestmentForm.enable();
-      this.interests = data;
+      // this.interests = data;
+      this.interest = data.rate;
+      this.investments = data.data;
       this.loadingBar.stop();
-      //console.log(data);
+      console.log(data);
     }, (err: any) => {
       this.newInvestmentForm.enable();
       this.applySuccess = false;
@@ -213,7 +224,7 @@ export class SavingsComponent implements OnInit {
     this.service.startInvestment(this.newinvestment).subscribe((data: any) => {
       this.isAccepting = false;
       this.loadingBar.stop();
-      //console.log(data);
+      console.log(data);
       if (data.status === 'success') {
         this.handleCancel();
         // this.message.success(data.message);
@@ -233,5 +244,19 @@ export class SavingsComponent implements OnInit {
         this.message.error('Connection Timeout. Please try again later');
       }
     });
+  }
+
+
+  getReturns() {
+    let returns = 0;
+    for (let index = 0; index < this.investments.length; ++index) {
+      returns = returns + (this.investments[index].percent * this.investmentAmt);
+      if (index === 0) {
+        this.firstmonthpercent = this.investments[index].percent;
+      }
+      this.investmentenddate = this.investments[index].duedate;
+      this.percent = this.investments[index].percent;
+    }
+    return returns;
   }
 }

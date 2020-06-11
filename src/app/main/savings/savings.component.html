@@ -97,11 +97,11 @@
 
 
     <ng-container *ngIf="applySuccess; else noSuccess">
-      <h2 class="font-bold text-pry text-center">Interest Breakdown</h2>
+      <h2 class="font-bold text-pry text-center">Investment Breakdown</h2>
       <br>
       <div class="table-responsive">
         <table class="table table-stripped  table-bordered">
-          <thead>
+          <!-- <thead>
             <tr>
               <th class="table-heading"></th>
               <th class="table-heading">Percentage (%)</th>
@@ -114,7 +114,39 @@
               <th class="p-4 font-1-5">{{interest.percent}}</th>
               <td class="p-4 font-1-5">{{interest.duedate}}</td>
             </tr>
-          </tbody>
+          </tbody> -->
+          <table class="table table-stripped  table-bordered">
+            <tbody>
+              <tr>
+                <th class="p-4 font-1-5" >Amount</th>
+                <td class="p-4 font-1-5">{{investmentAmt | currency:'₦'}}</td>
+              </tr>
+              <tr>
+                  <th class="p-4 font-1-5" >Interest Rate</th>
+                  <td class="p-4 font-1-5">{{12 * this.interest}}% per annum ({{this.interest}}% per month)</td>
+                </tr>
+                <tr>
+                    <th class="p-4 font-1-5" >Total Interest</th>
+                    <td class="p-4 font-1-5">{{getReturns()  | currency:'₦ '}}</td>
+                  </tr>
+              <tr>
+                <th class="p-4 font-1-5" >Investment Start Date</th>
+                <td class="p-4 font-1-5">{{ startdate | date}}</td>
+              </tr>
+              <tr>
+                <th class="p-4 font-1-5" >First Month Interest</th>
+                <td class="p-4 font-1-5">{{firstmonthpercent  * investmentAmt | currency:'₦ '}}</td>
+              </tr>
+              <tr>
+                <th class="p-4 font-1-5" >Investment End Date</th>
+                <td class="p-4 font-1-5">{{investmentenddate | date}}</td>
+              </tr>
+              <tr>
+                  <th class="p-4 font-1-5" >Subsequent Monthly Interest</th>
+                  <td class="p-4 font-1-5">{{percent  * investmentAmt | currency:'₦ '}}</td>
+                </tr>
+            </tbody>
+          </table>
         </table>
       </div>
       <div class="mt-2 d-flex justify-content-center align-items-center">

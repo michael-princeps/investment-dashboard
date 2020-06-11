@@ -1,0 +1,12 @@
+<div class="vh-100">
+    <div class="d-flex h-100 align-items-center justify-content-center">
+        <ng-container *ngIf="!hasErrors">
+            <nz-spin nzSimple [nzSize]="'large'" *ngIf="showSpinner" nzTip="Please wait..."></nz-spin>
+        </ng-container>
+        <ng-container *ngIf="hasErrors">
+            <div class="alert alert-danger">
+                <p class="m-0">{{error? error : 'An error has occured'}}</p>
+            </div>
+        </ng-container>
+    </div>
+</div>

@@ -22,6 +22,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 @NgModule({
   declarations: [],
@@ -48,6 +49,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
     NzPaginationModule,
     NzSelectModule,
     NzFormModule,
+    NzSpinModule,
     NzDatePickerModule,
     NzNotificationModule
   ],
@@ -72,6 +74,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
     NzDrawerModule,
     NzModalModule,
     NzSelectModule,
+    NzSpinModule,
     NzDatePickerModule,
     NzNotificationModule,
     RouterModule,
