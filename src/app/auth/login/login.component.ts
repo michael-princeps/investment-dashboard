@@ -93,10 +93,10 @@ export class LoginComponent implements OnInit {
   }
 
   storeToken(token) {
-    sessionStorage.setItem('accessToken', token);
+   return window.sessionStorage.setItem('cw-accessToken', token);
   }
 
   storeUser(user) {
-    sessionStorage.setItem('loggedUser', user);
+    return window.sessionStorage.setItem('cw-loggedUser', user);
   }
 }

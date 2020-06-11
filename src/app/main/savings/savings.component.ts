@@ -198,7 +198,7 @@ export class SavingsComponent implements OnInit {
       this.interest = data.rate;
       this.investments = data.data;
       this.loadingBar.stop();
-      console.log(data);
+      // console.log(data);
     }, (err: any) => {
       this.newInvestmentForm.enable();
       this.applySuccess = false;
@@ -224,7 +224,7 @@ export class SavingsComponent implements OnInit {
     this.service.startInvestment(this.newinvestment).subscribe((data: any) => {
       this.isAccepting = false;
       this.loadingBar.stop();
-      console.log(data);
+      // console.log(data);
       if (data.status === 'success') {
         this.handleCancel();
         // this.message.success(data.message);

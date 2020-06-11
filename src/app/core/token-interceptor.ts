@@ -15,7 +15,6 @@ export class TokenInterceptor implements HttpInterceptor {
         if (this.service.isLoggedIn()) {
             const token = this.service.getAuthToken();
             const tokenV1 = this.service.getAuthV1Token();
-            const tokenForSetNewPassword = this.service.getTokenForSetNewPassword();
             if (req.url.includes('compound.ng')) {
                 req = this.addToken(req, token);
             } else {
