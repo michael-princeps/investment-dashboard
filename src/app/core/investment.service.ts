@@ -49,7 +49,7 @@ export class InvestmentService {
     return this.http.post(`${environment.investmentsURL}/login`, credentials).pipe();
   }
 
-  inviteInvestor(credentials: {email: string}) {
+  inviteInvestor(credentials: {email: string, code: string}) {
     return this.http.post(`${environment.investmentsURL}/invite`, credentials).pipe();
   }
   changePassword(credentials) {
