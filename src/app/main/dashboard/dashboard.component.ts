@@ -39,7 +39,8 @@ export class DashboardComponent implements OnInit {
       this.dashboard = data;
       this.dashboardSavings = data.total_savings;
       this.investmentMaturity = data.maturity;
-      window.localStorage.setItem('notification_investor_CW', JSON.stringify(data.notification));
+      this.service.saveNotification(data.notification)
+      // window.localStorage.setItem('notification_investor_CW', JSON.stringify(data.notification));
       // this.service.saveNotification(data.notification);
       //console.log(this.dashboard);
     }, (err: any) => {

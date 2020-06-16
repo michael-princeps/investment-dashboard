@@ -44,12 +44,15 @@ export class SavingsComponent implements OnInit {
   startdate: any;
   investments: any[] = [];
   interest: any;
+  user;
   constructor(private service: InvestmentService,
               private route: ActivatedRoute, private loadingBar: LoadingBarService,
               private message: NzMessageService, private fb: FormBuilder, private notify: NzNotificationService) { }
 
   ngOnInit(): void {
-    this.notification = JSON.parse(window.localStorage.getItem('notification_investor_CW'));
+    this.notification = this.service.getNotification();
+    this.user = this.service.retrieveUser();
+    // console.log(this.user);
     this.initForm();
     this.route.params.subscribe((param: Params) => {
       this.savingsId = param.id;
@@ -112,7 +115,7 @@ export class SavingsComponent implements OnInit {
       //console.log(err);
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401) {
-         
+
         } else {
           this.message.error('Error connecting to server, please check your internet connection and try again');
         }
@@ -172,7 +175,7 @@ export class SavingsComponent implements OnInit {
 
   onChange(event: Date){
     if (event) {
-      //console.log(event.toISOString().slice(0, 10));
+      // console.log(event.toISOString().slice(0, 10));
     }
   }
 
@@ -181,15 +184,21 @@ export class SavingsComponent implements OnInit {
       return;
     }
     this.applySuccess = false;
-    this.newinvestment = {...this.newInvestmentForm.value, savings_id: this.savingsData.savings_id};
+    this.newinvestment = {...this.newInvestmentForm.value,
+       savings_id: this.savingsData.savings_id,
+       firstname: this.user.borrower_firstname,
+      lastname: this.user.borrower_lastname,
+      unique_number: this.user.borrower_unique_number,
+      savings_account_no: this.savingsData.savings_account_number
+    };
     this.newinvestment.investment_start_date = this.newinvestment.investment_start_date.toISOString().slice(0, 10);
-    this.newinvestment.amount = this.unFormat(this.newinvestment.amount)
+    this.newinvestment.amount = this.unFormat(this.newinvestment.amount);
     this.loadingBar.start();
     this.isAdding = true;
     this.newInvestmentForm.disable();
     this.investmentAmt = this.unFormat(this.newinvestment.amount);
     this.startdate = this.newinvestment.investment_start_date;
-    //console.log(this.newinvestment);
+    // console.log(this.newinvestment);
     this.service.initiateInvestment(this.newinvestment).subscribe((data: any) => {
       this.applySuccess = true;
       this.isAdding = false;
