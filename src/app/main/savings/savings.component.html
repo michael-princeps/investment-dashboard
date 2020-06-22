@@ -27,8 +27,8 @@
   </div>
   <br>
   <div class="d-flex align-items-center">
-    <button nz-button nzType="primary" class="d-flex align-items-center btn btn-pry mr-2"
-      (click)="showAddInvestMentModal()">Add fund</button>
+    <!-- <button nz-button nzType="primary" class="d-flex align-items-center btn btn-pry mr-2"
+      (click)="showAddInvestMentModal()">Add fund</button> -->
     <!-- <button class="btn btn-dark">Export PDF</button> -->
     <button nz-button nzType="primary" class="d-flex align-items-center btn btn-dark"
       (click)="generatePDF(savingsData.savings_id)"
@@ -160,16 +160,16 @@
         <br>
       <ng-container *ngIf="notification.status === 1">
         <div class="mt-4 alert alert-info text-center">
-          <small>
+          <p>
             {{notification.message}}
-          </small>
+          </p>
         </div>
       </ng-container>
       <div class="alert alert-info text-center">
-        <small>
+        <p>
           Please note that adding an investment will automatically extend this current investment maturity date by the
           new selected duration
-        </small>
+        </p>
       </div>
       <form *ngIf="notification.status !== 1" nz-form class="investForm" [formGroup]="newInvestmentForm">
         <h2 class="font-bold text-pry text-center">Add Investment</h2>

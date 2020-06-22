@@ -18,6 +18,7 @@ interface loggedUserData {
   data: any;
   status: string;
   token: string;
+  message?: string;
 }
 @Component({
   selector: 'app-login',
@@ -66,18 +67,23 @@ export class LoginComponent implements OnInit {
       this.loginForm.enable();
       this.loading = false;
       // console.log(data);
+      if (data.status === 'success') {
       this.service.storeUser(data.data.borrower);
       this.service.storeToken(data.token);
+
       if (this.service.redirectUrl) {
         this.router.navigateByUrl(this.service.redirectUrl);
       } else {
         this.router.navigate(['/']);
       }
+     } else {
+       this.message.error(`User ${data.message}`)
+     }
     }, (err: any) => {
       this.loadingBar.stop();
       this.loginForm.enable();
       this.loading = false;
-      //console.log(err);
+      // console.log(err);
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401) {
           this.loginForm.setErrors({
