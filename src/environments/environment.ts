@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  investmentsURL: 'https://compound.ng/api/v1/investments',
+  investmentsURL: 'https://app.creditwallet.ng/api/v1/investments',
 };
 
 /*

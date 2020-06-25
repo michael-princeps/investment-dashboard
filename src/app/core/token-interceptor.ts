@@ -15,7 +15,7 @@ export class TokenInterceptor implements HttpInterceptor {
         if (this.service.isLoggedIn()) {
             const token = this.service.getAuthToken();
             const tokenV1 = this.service.getAuthV1Token();
-            if (req.url.includes('compound.ng')) {
+            if (req.url.includes('https://app.creditwallet.ng')) {
                 req = this.addToken(req, token);
             } else {
                 req = this.addToken(req, tokenV1);

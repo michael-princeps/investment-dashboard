@@ -23,7 +23,7 @@
           </div>
         </div>
         <div class="form-group">
-          <a [routerLink]="['/auth/forgot-password']" class="color1 float-right">Forgot Password?</a>
+          <!-- <a [routerLink]="['/auth/forgot-password']" class="color1 float-right">Forgot Password?</a> -->
           <p class="small">Password</p>
           <input type="password" class="oval-sm form-control form-control-lg" formControlName="password">
           <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
@@ -32,8 +32,9 @@
             </small>
           </div>
         </div>
-        <!-- <a [routerLink]="['/auth/forgot-password']" class="color1 float-right">Forgot Password?</a> -->
-        <br />
+        <div class="text-right mb-2">
+          <a [routerLink]="['/auth/forgot-password']" class="color1">Forgot Password?</a>
+        </div>
         <button class="oval-sm btn btn-lg btn-block text-white" type="submit" [disabled]="loading || loginForm.invalid">{{loading ? 'Logging in...' : 'Log
             In'}}</button>
       </form>
