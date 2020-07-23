@@ -207,7 +207,7 @@ export class SavingsComponent implements OnInit {
       this.interest = data.rate;
       this.investments = data.data;
       this.loadingBar.stop();
-      // console.log(data);
+      console.log(data);
     }, (err: any) => {
       this.newInvestmentForm.enable();
       this.applySuccess = false;

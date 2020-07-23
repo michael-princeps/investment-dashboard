@@ -37,7 +37,7 @@ export class InviteInvestorComponent implements OnInit {
     return this.service.inviteInvestor(params).subscribe((data: any) => {
       this.loadingBar.stop();
       this.showSpinner = false;
-      // console.log(data);
+      console.log(data);
       if (data.status === 'success') {
         if (data.first_login === 0) {
           this.service.storeToken(data.token);

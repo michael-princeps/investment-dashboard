@@ -31,7 +31,7 @@ export class MainComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.userDetails = sessionStorage.getItem('cw-loggedUser');
+    this.userDetails = this.service.retrieveUser();
     //console.log(this.userDetails);
   }
 

@@ -150,7 +150,11 @@
         </table>
       </div>
       <div class="mt-2 d-flex justify-content-center align-items-center">
-        <button nz-button nzType="primary" type="button" [nzLoading]="isAccepting" nzSize="large" class="w-75"
+        <button nz-button nzType="primary" nzGhost type="button" nzSize="large" class="w-75 mx-1"
+        (click)="applySuccess = false" [disabled]="isAccepting">
+        Go Back
+        </button>
+        <button nz-button nzType="primary" type="button" [nzLoading]="isAccepting" nzSize="large" class="w-75 mx-1"
         (click)="acceptInvestment()" [disabled]="isAccepting">
         {{isAccepting ? 'Accepting' : 'Accept'}}
         </button>
