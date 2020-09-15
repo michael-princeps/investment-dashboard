@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faCoffee, faChartPie, faLandmark, faSignOutAlt, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faCoffee, faChartPie, faLandmark, faSignOutAlt, faArrowRight, faCalendarCheck } from '@fortawesome/free-solid-svg-icons';
 import { InvestmentService } from 'src/app/core/investment.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LoadingBarService } from '@ngx-loading-bar/core';
@@ -14,10 +14,12 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit {
   faCoffee = faCoffee;
   faChartPie = faChartPie;
+  faCalendarCheck = faCalendarCheck;
   faLandmark = faLandmark;
   faSignOutAlt = faSignOutAlt;
   faArrowRight = faArrowRight;
   dashboard: any;
+  user: any;
   dashboardSavings: any;
   isVisible: boolean;
   transactions: any[] = [];
@@ -28,6 +30,7 @@ export class DashboardComponent implements OnInit {
               private loadingBar: LoadingBarService, private message: NzMessageService, private router: Router) { }
 
   ngOnInit(): void {
+    this.user = this.service.retrieveUser();
     this.loadDashboard();
   }
 
@@ -42,7 +45,7 @@ export class DashboardComponent implements OnInit {
       this.service.saveNotification(data.notification)
       // window.localStorage.setItem('notification_investor_CW', JSON.stringify(data.notification));
       // this.service.saveNotification(data.notification);
-      //console.log(this.dashboard);
+      // console.log(this.dashboard);
     }, (err: any) => {
       this.loadingBar.stop();
       // //console.log(err);

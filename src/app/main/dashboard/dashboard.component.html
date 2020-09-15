@@ -21,45 +21,46 @@
       </div>
     </ng-container>
     <div class="dashboard_info mt-2">
+      <div class="mb-2">
+        <p>Hi, <span class="username">{{user.borrower_firstname}} {{user.borrower_lastname}}</span></p>
+        <p class="text-gray">Your investment details</p>
+      </div>
       <div class="row">
-        <div class="col-12 col-lg-4 my-1 mb-2">
-          <div class="mb-2">
-            <h3 class="info-card-title">Total Investment</h3>
-          </div>
+        <div class="col-12 col-lg-4 my-1 mb-2" *ngFor="let investment of dashboardSavings">
           <div class="card card__orange box-shadow scale">
             <div class="d-flex flex-row">
               <div class="card-item card-icon-div">
                 <!-- <fa-icon [icon]="faChartPie"></fa-icon> -->
-                <img src="assets/images/chaart.png" alt="">
+                <img src="assets/images/naira.png" alt="">
               </div>
               <div class="d-flex d-flex flex-column w-100 inv_deets">
                 <div class="d-flex d-flex flex-row">
                   <div class="card-item flex-grow-1 flex-column flex-md-row">
-                    <h5 class="card-currency">{{dashboard.total_investment | currency:'₦'}}</h5>
+                    <h5 class="card-currency">{{investment.savings_balance | currency : '₦'}}</h5>
                   </div>
                   <div class="card-item d-flex flex-md-column justify-content-between align-content-between">
-                    <button class="btn btn-pry btn-sm card-btn" (click)="showInfoModal(dashboard.all_deposit, 1)">View
-                      All</button>
+                    <button class="btn btn-pry btn-sm card-btn" (click)="viewSavings(investment.savings_id)">View
+                      </button>
                   </div>
                 </div>
+              <h6>{{investment.savings_account_number}}</h6>
                 <div class="d-flex justify-content-between align-items-center prev-inv">
-                  <small class="">last deposit</small>
+                  <small class="">Maturity Date</small>
                   &nbsp;
-                  <fa-icon [icon]="faArrowRight" class="right-arrow"></fa-icon>
-                  <small class="">{{dashboard.last_deposit | currency:'₦'}}</small>
+                  <fa-icon [icon]="faCalendarCheck" class="right-arrow"></fa-icon>
+                  <small class="">{{investment.custom_field_1176}}</small>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-12 col-lg-4 my-1 mb-2">
+        <!-- <div class="col-12 col-lg-4 my-1 mb-2">
           <div class="mb-2">
             <h3 class="info-card-title">Total Interest Earned</h3>
           </div>
           <div class="card card__yellow box-shadow scale">
             <div class="d-flex flex-row">
               <div class="card-item card-icon-div">
-                <!-- <fa-icon [icon]="faChartPie"></fa-icon> -->
                 <img src="assets/images/naira.png" alt="">
               </div>
               <div class="d-flex d-flex flex-column w-100 inv_deets">
@@ -89,7 +90,6 @@
           <div class="card card__dark box-shadow scale">
             <div class="d-flex flex-row">
               <div class="card-item card-icon-div">
-                <!-- <fa-icon [icon]="faChartPie"></fa-icon> -->
                 <img src="assets/images/naira.png" alt="">
               </div>
               <div class="d-flex d-flex flex-column w-100 inv_deets">
@@ -111,7 +111,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
    <ng-container *ngIf="dashboard.notification.status === 1">
@@ -124,18 +124,12 @@
     <div class="row mt-4">
       <div class="col-lg-12">
         <div class="card box-shadow savings-table savings-table_border_dark mt-2">
-          <div class="card-header">
-            <div class="d-flex flex-column justify-content-start">
-              <h4 class="card-title card-table-title m-0">Your investment details</h4>
-              <small class="text-gray">Your deposit investment</small>
-            </div>
-          </div>
           <div class="card-body">
-            <div class="table-header-action d-flex justify-content-end">
+            <div class="investment__btn">
               <a role="button" href="https://investment.creditwallet.ng/" rel="noopener noreferrer" target="_blank"
-                class="btn btn-dark">Add new deposit</a>
+                class="btn btn-dark investment__btn--add">Add new deposit</a>
             </div>
-            <div class="table-responsive">
+            <!-- <div class="table-responsive">
               <nz-table nzTemplateMode nzBordered>
                 <thead>
                   <tr>
@@ -160,7 +154,7 @@
                   </tr>
                 </tbody>
               </nz-table>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>

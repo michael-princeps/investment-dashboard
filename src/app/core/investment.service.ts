@@ -73,7 +73,7 @@ export class InvestmentService {
     await localStorage.clear();
   }
   resetpassword(credentials: {email: string}) {
-    return this.http.post(``, credentials).pipe();
+    return this.http.post(`${environment.investmentsURL}/password/reset`, credentials).pipe();
   }
 
 

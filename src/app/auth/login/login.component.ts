@@ -19,6 +19,7 @@ interface loggedUserData {
   status: string;
   token: string;
   message?: string;
+  first_login?: number;
 }
 @Component({
   selector: 'app-login',
@@ -70,14 +71,19 @@ export class LoginComponent implements OnInit {
       if (data.status === 'success') {
       this.service.storeUser(data.data.borrower);
       this.service.storeToken(data.token);
-
-      if (this.service.redirectUrl) {
-        this.router.navigateByUrl(this.service.redirectUrl);
+      if (data.first_login === 0) {
+        this.service.storeToken(data.token);
+        this.service.storeSetNewPasswordToken(data.token);
+        this.router.navigate(['/auth/set-password']);
       } else {
-        this.router.navigate(['/']);
+        if (this.service.redirectUrl) {
+          this.router.navigateByUrl(this.service.redirectUrl);
+        } else {
+          this.router.navigate(['/']);
+        }
       }
      } else {
-       this.message.error(`User ${data.message}`)
+       this.message.error(`User ${data.message}`);
      }
     }, (err: any) => {
       this.loadingBar.stop();
