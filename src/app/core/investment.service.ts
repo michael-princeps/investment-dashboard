@@ -11,38 +11,38 @@ export class InvestmentService {
 
 
   storeToken(token) {
-    return window.localStorage.setItem('cw-accessToken', token);
+    return window.sessionStorage.setItem('cw-accessToken', token);
   }
 
   storeSetNewPasswordToken(token) {
-    return window.localStorage.setItem('cw-new-password-token', token);
+    return window.sessionStorage.setItem('cw-new-password-token', token);
   }
 
   storeUser(user) {
-    return window.localStorage.setItem('cw-loggedUser', JSON.stringify(user));
+    return window.sessionStorage.setItem('cw-loggedUser', JSON.stringify(user));
   }
 
   retrieveUser() {
-    return JSON.parse(window.localStorage.getItem('cw-loggedUser'));
+    return JSON.parse(window.sessionStorage.getItem('cw-loggedUser'));
   }
   getAuthToken() {
-    return window.localStorage.getItem('cw-accessToken');
+    return window.sessionStorage.getItem('cw-accessToken');
   }
 
   getTokenForSetNewPassword() {
-    return window.localStorage.getItem('cw-new-password-token');
+    return window.sessionStorage.getItem('cw-new-password-token');
   }
 
   getAuthV1Token() {
-    return JSON.parse(window.localStorage.getItem('cw-v1_token'));
+    return JSON.parse(window.sessionStorage.getItem('cw-v1_token'));
   }
 
   saveNotification(notification) {
-    return window.localStorage.setItem('notification_investor_CW', JSON.stringify(notification));
+    return window.sessionStorage.setItem('notification_investor_CW', JSON.stringify(notification));
   }
 
   getNotification() {
-    return window.localStorage.getItem('notification_investor_CW');
+    return window.sessionStorage.getItem('notification_investor_CW');
   }
 
   isLoggedIn() {
@@ -69,8 +69,9 @@ export class InvestmentService {
     return this.http.post(`${environment.investmentsURL}/set-password`, credentials).pipe();
   }
   async logout() {
-    await localStorage.removeItem('cw-accessToken');
-    await localStorage.clear();
+    await window.sessionStorage.removeItem('cw-accessToken');
+    await window.sessionStorage.removeItem('savingsAccounts');
+    await window.sessionStorage.clear();
   }
   resetpassword(credentials: {email: string}) {
     return this.http.post(`${environment.investmentsURL}/password/reset`, credentials).pipe();

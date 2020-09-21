@@ -6,6 +6,7 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TimeoutError } from 'rxjs';
 import { Router } from '@angular/router';
+import { MainService } from '../main.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -26,12 +27,17 @@ export class DashboardComponent implements OnInit {
   modalHeader: string;
   transactionsTotal: any;
   investmentMaturity: any;
+  allSavingsAccount: any;
+  allReceivedTotal: any[] = [];
+  allOutstandingTotal: any[] = [];
   constructor(private service: InvestmentService,
-              private loadingBar: LoadingBarService, private message: NzMessageService, private router: Router) { }
+              private loadingBar: LoadingBarService, private message: NzMessageService, private router: Router, private mainService: MainService) { }
 
   ngOnInit(): void {
     this.user = this.service.retrieveUser();
     this.loadDashboard();
+    // console.log(window.sessionStorage.getItem('savingsAccounts'));
+
   }
 
 
@@ -41,8 +47,13 @@ export class DashboardComponent implements OnInit {
       this.loadingBar.stop();
       this.dashboard = data;
       this.dashboardSavings = data.total_savings;
+      this.allReceivedTotal = data.all_receieved.reduce((acc, sum) => parseFloat(sum.transaction_amount) + acc, 0 );
+      this.allOutstandingTotal = data.all_outstanding.reduce((acc, sum) => parseFloat(sum.transaction_amount) + acc, 0 );
+      this.allSavingsAccount = data.savings_account;
+      window.sessionStorage.setItem('savingsAccounts', JSON.stringify(this.allSavingsAccount));
+      this.mainService.setSavingsAcct(this.allSavingsAccount);
       this.investmentMaturity = data.maturity;
-      this.service.saveNotification(data.notification)
+      this.service.saveNotification(data.notification);
       // window.localStorage.setItem('notification_investor_CW', JSON.stringify(data.notification));
       // this.service.saveNotification(data.notification);
       // console.log(this.dashboard);
@@ -73,7 +84,7 @@ export class DashboardComponent implements OnInit {
     this.transactions = transaction;
     switch (type) {
       case 1:
-        this.modalHeader = 'Total Investment Details';
+        this.modalHeader = 'Total Deposit Details';
         break;
       case 2:
         this.modalHeader = 'Total Interest Earned Details';

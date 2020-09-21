@@ -101,6 +101,10 @@ nz-sider {
   height: 100%;
   position: fixed;
   left: 0;
+  flex: 0 0 225px !important;
+    max-width: 225px !important;
+    min-width: 225px !important;
+    width: 225px !important;
 
   @media all and (max-width: 767px) {
     display: none;
@@ -114,7 +118,7 @@ nz-sider {
 .right-layout {
 
   @media all and (min-width: 768px) {
-    margin-left: 200px;
+    margin-left: 225px;
   }
 
   .side-menu {

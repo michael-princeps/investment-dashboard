@@ -162,7 +162,7 @@
     </ng-container>
     <ng-template #noSuccess>
         <br>
-      <ng-container *ngIf="notification.status === 1">
+      <ng-container *ngIf="notification?.status === 1">
         <div class="mt-4 alert alert-info text-center">
           <p>
             {{notification.message}}
@@ -175,7 +175,7 @@
           new selected duration
         </p>
       </div>
-      <form *ngIf="notification.status !== 1" nz-form class="investForm" [formGroup]="newInvestmentForm">
+      <form *ngIf="notification?.status !== 1" nz-form class="investForm" [formGroup]="newInvestmentForm">
         <h2 class="font-bold text-pry text-center">Add Investment</h2>
         <div nz-row nzGutter="16">
           <div nz-col class="gutter-row" nzXs="24" nzSm="24" nzMd="12" nzLg="12" nzXl="12" nzOffset="0">

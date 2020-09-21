@@ -11,7 +11,10 @@
 .username{
   font-size: 1.3rem;
   font-weight: bold;
-  color: #f56b2a;
+
+  span{
+    color: #f56b2a;
+  }
 }
 .dashboard_info {
   .info-card-title {
@@ -86,7 +89,7 @@
   background-color: #fff;
   border: none;
   border-radius: 1rem;
-  background-image: url('../../../assets/images/profit.png');
+  // background-image: url('../../../assets/images/profit.png');
   background-repeat: no-repeat;
   background-position: right bottom;
 

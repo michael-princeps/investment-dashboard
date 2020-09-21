@@ -49,9 +49,21 @@
       <div class="side-menu">
         <ul class="side-menu-main">
           <li [routerLink]="['/dashboard']" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact: true}">
-            <fa-icon class="mr-2" [icon]="faSignOutAlt"></fa-icon>
+            <fa-icon class="mr-2" [icon]="faInfoCircle"></fa-icon>
            <span>Dashboard</span>
           </li>
+          <li [class.router-link-active]="isActive('savings')" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1"
+          >
+            <fa-icon class="mr-2" [icon]="faMoneyBill"></fa-icon>
+           <span>Accounts</span>
+          </li>
+          <ul class="m-0 px-2 collapse multi-collapse" id="multiCollapseExample1">
+            <li *ngFor="let account of savingsAccount" 
+            [routerLink]="['/savings', account.savings_id]" routerLinkActive="router-link-active">
+              <fa-icon class="mr-2" [icon]="faMoneyBill"></fa-icon>
+             <span>{{account.savings_account_number}}</span>
+            </li>
+          </ul>
           <li [routerLink]="['/change-password']" routerLinkActive="router-link-active">
             <fa-icon class="mr-2" [icon]="faCog"></fa-icon>
            <span>Change Password</span>
@@ -79,9 +91,21 @@
   <div class="mobile-menu">
     <ul class="mobile-menu-main">
       <li [routerLink]="['/dashboard']" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact: true}">
-        <fa-icon class="mr-2" [icon]="faSignOutAlt"></fa-icon>
+        <fa-icon class="mr-2" [icon]="faInfoCircle"></fa-icon>
        <span>Dashboard</span>
       </li>
+       <li [class.router-link-active]="isActive('savings')" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1"
+          >
+            <fa-icon class="mr-2" [icon]="faMoneyBill"></fa-icon>
+           <span>Accounts</span>
+          </li>
+          <ul class="m-0 px-2 collapse multi-collapse" id="multiCollapseExample1">
+            <li *ngFor="let account of savingsAccount" 
+            [routerLink]="['/savings', account.savings_id]" routerLinkActive="router-link-active">
+              <fa-icon class="mr-2" [icon]="faMoneyBill"></fa-icon>
+             <span>{{account.savings_account_number}}</span>
+            </li>
+          </ul>
       <li [routerLink]="['/change-password']" routerLinkActive="router-link-active">
         <fa-icon class="mr-2" [icon]="faCog"></fa-icon>
        <span>Change Password</span>
