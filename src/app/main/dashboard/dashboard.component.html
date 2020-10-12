@@ -164,32 +164,41 @@
               <a role="button" href="https://investment.creditwallet.ng/" rel="noopener noreferrer" target="_blank"
                 class="btn btn-dark investment__btn--add">Add new deposit</a>
             </div> -->
-            <div class="table-responsive">
-              <nz-table nzTemplateMode nzBordered>
-                <thead>
-                  <tr>
-                    <th nzWidth="60px"></th>
-                    <th nzWidth="30%">Savings Account No.</th>
-                    <th nzWidth="30%">Savings Balance</th>
-                    <th nzWidth="30%">Maturity Date</th>
-                    <th nzWidth="60px"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let saving of allSavingsAccount">
-                    <td>
-                      <img src="assets/images/icon.png" class="table-icon" alt="">
-                    </td>
-                    <td>{{saving.savings_account_number}}</td>
-                    <td>{{saving.savings_balance | currency : '₦'}}</td>
-                    <td>{{saving.maturity_date}}</td>
-                    <td>
-                      <button nz-button nzSize="small" (click)="viewSavings(saving.savings_id)">View</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </nz-table>
-            </div>
+            <ng-container *ngIf="allSavingsAccount && allSavingsAccount.length; else noSavingsAccount">
+              <div class="table-responsive">
+                <nz-table nzTemplateMode nzBordered>
+                  <thead>
+                    <tr>
+                      <th nzWidth="60px"></th>
+                      <th nzWidth="30%">Savings Account No.</th>
+                      <th nzWidth="30%">Savings Balance</th>
+                      <th nzWidth="30%">Maturity Date</th>
+                      <th nzWidth="60px"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let saving of allSavingsAccount">
+                      <td>
+                        <img src="assets/images/icon.png" class="table-icon" alt="">
+                      </td>
+                      <td>{{saving.savings_account_number}}</td>
+                      <td>{{saving.savings_balance | currency : '₦'}}</td>
+                      <td>{{saving.maturity_date}}</td>
+                      <td>
+                        <button nz-button nzSize="small" (click)="viewSavings(saving.savings_id)">View</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </nz-table>
+              </div>
+            </ng-container>
+            <ng-template #noSavingsAccount>
+              <div class="text-center">
+                <p>No Investment(s)</p>
+                <a role="button" href="https://investment.creditwallet.ng/" rel="noopener noreferrer" target="_blank"
+            class="btn btn-dark investment__btn--add">Add one now</a>
+              </div>
+            </ng-template>
           </div>
         </div>
       </div>

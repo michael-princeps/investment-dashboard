@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { InvestmentService } from 'src/app/core/investment.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { LoadingBarService } from '@ngx-loading-bar/core';
@@ -27,7 +27,7 @@ export class SavingsComponent implements OnInit {
   savingsData: any;
   isVisible: boolean;
   newInvestmentForm: FormGroup;
-  isLoading: boolean;
+  isLoading = false;
   DECIMAL_SEPARATOR = '.';
   GROUP_SEPARATOR = ',';
   amount: any;
@@ -47,7 +47,7 @@ export class SavingsComponent implements OnInit {
   user;
   constructor(private service: InvestmentService,
               private route: ActivatedRoute, private loadingBar: LoadingBarService,
-              private message: NzMessageService, private fb: FormBuilder, private notify: NzNotificationService) { }
+              private message: NzMessageService, private fb: FormBuilder, private notify: NzNotificationService, private chref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.notification = this.service.getNotification();
@@ -69,6 +69,7 @@ export class SavingsComponent implements OnInit {
     })
   }
   fetchSavingsDetails(id) {
+    this.savings = null;
     this.loadingBar.start();
     this.service.viewSavings(id).subscribe((data: any) => {
       this.loadingBar.stop();
@@ -106,18 +107,18 @@ export class SavingsComponent implements OnInit {
   generatePDF(savingsId) {
     this.isLoading = true;
     this.service.generatePDF(savingsId).subscribe((data: any) => {
+      this.chref.markForCheck();
       this.isLoading = false;
-      //console.log(data);
       window.open(data.url, '_blank');
     }, (err: any) => {
+      // console.log(err);
+      this.chref.markForCheck();
       this.isLoading = false;
-      this.loadingBar.stop();
-      //console.log(err);
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401) {
 
         } else {
-          this.message.error('Error connecting to server, please check your internet connection and try again');
+          this.message.error('Error connecting to server, please check your internet connection and try againn');
         }
       } else if (err instanceof TimeoutError) {
         this.message.error('Connection Timeout. Please try again later');
