@@ -15,11 +15,12 @@ export class TokenInterceptor implements HttpInterceptor {
         if (this.service.isLoggedIn()) {
             const token = this.service.getAuthToken();
             const tokenV1 = this.service.getAuthV1Token();
-            if (req.url.includes('https://app.creditwallet.ng')) {
-                req = this.addToken(req, token);
-            } else {
-                req = this.addToken(req, tokenV1);
-            }
+            // if (req.url.includes('https://app.creditwallet.ng')) {
+            //     req = this.addToken(req, tokenV1);
+            // } else {
+            //     req = this.addToken(req, token);
+            // }
+            req = this.addToken(req, token);
         }
         return next.handle(req).pipe(catchError((err: any) => {
             if (err instanceof HttpErrorResponse && err.status === 401) {

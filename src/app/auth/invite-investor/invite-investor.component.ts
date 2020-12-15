@@ -23,11 +23,11 @@ export class InviteInvestorComponent implements OnInit {
   hasErrors: boolean;
   error: any;
   constructor(private route: ActivatedRoute, private router: Router, private service: InvestmentService,
-    private loadingBar: LoadingBarService, private message: NzMessageService, private modal: NzModalService) { }
+              private loadingBar: LoadingBarService, private message: NzMessageService, private modal: NzModalService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params: inviteEmail) => {
-      console.log(params);
+      // console.log(params);
       this.handleInvite(params);
     });
   }
@@ -37,7 +37,7 @@ export class InviteInvestorComponent implements OnInit {
     return this.service.inviteInvestor(params).subscribe((data: any) => {
       this.loadingBar.stop();
       this.showSpinner = false;
-      console.log(data);
+      // console.log(data);
       if (data.status === 'success') {
         if (data.first_login === 0) {
           this.service.storeToken(data.token);
@@ -58,13 +58,13 @@ export class InviteInvestorComponent implements OnInit {
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401) {
 
-        } else {
-          this.message.error('Error connecting to server, please check your internet connection and try again');
+        } else if (err.status >= 400 && err.status <= 415) {
+          this.message.error(err.error.message);
         }
       } else if (err instanceof TimeoutError) {
         this.message.error('Connection Timeout. Please try again later');
       }
-    })
+    });
   }
 
 }

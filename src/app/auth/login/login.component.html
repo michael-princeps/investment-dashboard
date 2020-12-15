@@ -25,7 +25,13 @@
         <div class="form-group">
           <!-- <a [routerLink]="['/auth/forgot-password']" class="color1 float-right">Forgot Password?</a> -->
           <p class="small">Password</p>
-          <input type="password" class="oval-sm form-control form-control-lg" formControlName="password">
+          <!-- <input type="password" class="oval-sm form-control form-control-lg" formControlName="password"> -->
+          <div class="input-group mb-3">
+            <input [type]="hide ? 'password' : 'text'" type="password" formControlName="password" class="form-control form-control-lg">
+            <div class="input-group-append">
+              <button class="btn text-white" type="button" (click)="hide =! hide">{{hide ? 'Show' : 'Hide'}}</button>
+            </div>
+          </div>
           <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
             <small *ngIf="password.errors.required">
               Please put your password

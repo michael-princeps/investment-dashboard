@@ -29,6 +29,7 @@ interface loggedUserData {
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loading: boolean;
+  hide = true;
   // tslint:disable-next-line: max-line-length
   constructor(private formbuilder: FormBuilder, private loadingBar: LoadingBarService, private service: InvestmentService, private message: NzMessageService, private router: Router) {
     this.initialiseForm();
@@ -72,7 +73,6 @@ export class LoginComponent implements OnInit {
       this.service.storeUser(data.data.borrower);
       this.service.storeToken(data.token);
       if (data.first_login === 0) {
-        this.service.storeToken(data.token);
         this.service.storeSetNewPasswordToken(data.token);
         this.router.navigate(['/auth/set-password']);
       } else {
@@ -95,8 +95,8 @@ export class LoginComponent implements OnInit {
           this.loginForm.setErrors({
             invalid: err.error.message
           });
-        } else {
-          this.message.error('Error connecting to server, please check your internet connection and try again');
+        } else if (err.status >= 400 && err.status <= 415) {
+          this.message.error(err.error.message);
         }
       } else if (err instanceof TimeoutError) {
         this.message.error('Connection Timeout. Please try again later');

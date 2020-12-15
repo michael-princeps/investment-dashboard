@@ -31,7 +31,8 @@ export class DashboardComponent implements OnInit {
   allReceivedTotal: any[] = [];
   allOutstandingTotal: any[] = [];
   constructor(private service: InvestmentService,
-              private loadingBar: LoadingBarService, private message: NzMessageService, private router: Router, private mainService: MainService) { }
+              private loadingBar: LoadingBarService,
+              private message: NzMessageService, private router: Router, private mainService: MainService) { }
 
   ngOnInit(): void {
     this.user = this.service.retrieveUser();
@@ -66,8 +67,8 @@ export class DashboardComponent implements OnInit {
           //  this.message.error(err.error.message);
         } else if (err.status === 400) {
           this.message.error(err.error.message);
-        } else {
-          this.message.error('Error connecting to server, please check your internet connection and try again');
+        } else if (err.status >= 400 && err.status <= 415) {
+          this.message.error(err.error.message);
         }
       } else if (err instanceof TimeoutError) {
         this.message.error('Connection Timeout. Please try again later');
@@ -76,7 +77,7 @@ export class DashboardComponent implements OnInit {
   }
 
   viewSavings(id) {
-    //console.log(id);
+    // console.log(id);
     this.router.navigate(['/savings/', id]);
   }
 

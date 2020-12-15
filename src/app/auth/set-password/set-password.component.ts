@@ -16,7 +16,7 @@ export class SetPasswordComponent implements OnInit {
   setPasswordForm: FormGroup;
   loading: boolean;
   constructor(private fb: FormBuilder, private service: InvestmentService,
-    private loadingBar: LoadingBarService, private message: NzMessageService, private router: Router) { }
+              private loadingBar: LoadingBarService, private message: NzMessageService, private router: Router) { }
 
   ngOnInit(): void {
     this.setPasswordForm = this.fb.group({
@@ -29,11 +29,11 @@ export class SetPasswordComponent implements OnInit {
     return this.setPasswordForm.controls;
   }
   updateChangePwdValidator() {
-    Promise.resolve().then(() => this.setPasswordForm.controls.password_confirmation.updateValueAndValidity())
+    Promise.resolve().then(() => this.setPasswordForm.controls.password_confirmation.updateValueAndValidity());
   }
   changePwdValidator = (control: FormControl): { [s: string]: boolean } => {
     if (!control.value) {
-      return { error: true, required: true }
+      return { error: true, required: true };
     } else if (control.value !== this.setPasswordForm.controls.password.value) {
       return { confirmPassword: true, error: true };
     }
@@ -44,7 +44,7 @@ export class SetPasswordComponent implements OnInit {
     if (this.setPasswordForm.invalid) {
       return;
     }
-    console.log(formvalue);
+    // console.log(formvalue);
     this.loadingBar.start();
     this.loading = true;
     this.setPasswordForm.disable();
@@ -61,18 +61,18 @@ export class SetPasswordComponent implements OnInit {
       this.loadingBar.stop();
       this.setPasswordForm.enable();
       this.loading = false;
-      //console.log(err);
+      // console.log(err);
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401) {
           this.setPasswordForm.setErrors({
             invalid: err.error.message
           });
-        } else {
-          this.message.error('Error connecting to server, please check your internet connection and try again');
+        } else if (err.status >= 400 && err.status <= 415) {
+          this.message.error(err.error.message);
         }
       } else if (err instanceof TimeoutError) {
         this.message.error('Connection Timeout. Please try again later');
       }
-    })
+    });
   }
 }

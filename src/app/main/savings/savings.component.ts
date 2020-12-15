@@ -8,7 +8,7 @@ import { TimeoutError } from 'rxjs';
 import { NzModalRef } from 'ng-zorro-antd/modal/modal-ref';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import {fadeOutLeftAnimation, fadeInRightAnimation} from 'angular-animations'
+import {fadeOutLeftAnimation, fadeInRightAnimation} from 'angular-animations';
 
 @Component({
   selector: 'app-savings',
@@ -47,7 +47,8 @@ export class SavingsComponent implements OnInit {
   user;
   constructor(private service: InvestmentService,
               private route: ActivatedRoute, private loadingBar: LoadingBarService,
-              private message: NzMessageService, private fb: FormBuilder, private notify: NzNotificationService, private chref: ChangeDetectorRef) { }
+              private message: NzMessageService,
+              private fb: FormBuilder, private notify: NzNotificationService, private chref: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.notification = this.service.getNotification();
@@ -56,7 +57,7 @@ export class SavingsComponent implements OnInit {
     this.initForm();
     this.route.params.subscribe((param: Params) => {
       this.savingsId = param.id;
-      //console.log(this.savingsId);
+      // console.log(this.savingsId);
       this.fetchSavingsDetails(this.savingsId);
     });
   }
@@ -66,7 +67,7 @@ export class SavingsComponent implements OnInit {
       amount: [this.amount, [this.confirmValidator]],
       duration: [null, Validators.required],
       investment_start_date: [null, Validators.required]
-    })
+    });
   }
   fetchSavingsDetails(id) {
     this.savings = null;
@@ -76,7 +77,7 @@ export class SavingsComponent implements OnInit {
       this.savings = data;
       this.savingsTransactions = data.saving_transactions;
       this.savingsData = data.savings;
-      //console.log(this.savings);
+      // console.log(this.savings);
     }, (err: any) => {
       this.loadingBar.stop();
       // //console.log(err);
@@ -117,8 +118,8 @@ export class SavingsComponent implements OnInit {
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401) {
 
-        } else {
-          this.message.error('Error connecting to server, please check your internet connection and try againn');
+        } else if (err.status >= 400 && err.status <= 415) {
+          this.message.error(err.error.message);
         }
       } else if (err instanceof TimeoutError) {
         this.message.error('Connection Timeout. Please try again later');
@@ -174,7 +175,7 @@ export class SavingsComponent implements OnInit {
   }
 
 
-  onChange(event: Date){
+  onChange(event: Date) {
     if (event) {
       // console.log(event.toISOString().slice(0, 10));
     }
@@ -214,7 +215,7 @@ export class SavingsComponent implements OnInit {
       this.applySuccess = false;
       this.isAdding = false;
       this.loadingBar.stop();
-      //console.log(err);
+      // console.log(err);
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401) {
 
@@ -230,7 +231,7 @@ export class SavingsComponent implements OnInit {
   acceptInvestment() {
     this.loadingBar.start();
     this.isAccepting = true;
-    //console.log(this.newinvestment);
+    // console.log(this.newinvestment);
     this.service.startInvestment(this.newinvestment).subscribe((data: any) => {
       this.isAccepting = false;
       this.loadingBar.stop();
@@ -243,7 +244,7 @@ export class SavingsComponent implements OnInit {
     }, (err: any) => {
       this.isAccepting = false;
       this.loadingBar.stop();
-      //console.log(err);
+      // console.log(err);
       if (err instanceof HttpErrorResponse) {
         if (err.status === 401) {
 

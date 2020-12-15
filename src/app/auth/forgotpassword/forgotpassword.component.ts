@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { TimeoutError } from 'rxjs';
 import { InvestmentService } from 'src/app/core/investment.service';
 
 @Component({
@@ -14,9 +16,11 @@ export class ForgotpasswordComponent implements OnInit {
   resetForm: FormGroup;
   loading: boolean;
   isResetSuccess: boolean;
-  constructor(private formbuilder: FormBuilder, private loadingBar: LoadingBarService, private service: InvestmentService, private message: NzMessageService) {
+  constructor(private formbuilder: FormBuilder,
+              private loadingBar: LoadingBarService,
+              private service: InvestmentService, private message: NzMessageService) {
     this.initialiseForm();
-   }
+  }
 
   ngOnInit(): void {
 
@@ -56,11 +60,19 @@ export class ForgotpasswordComponent implements OnInit {
           emailnotfound: data.message
         });
       }
-    }, err => {
+    }, (err: any) => {
       this.resetForm.enable();
       this.loading = false;
       this.loadingBar.complete();
-      this.message.error('Error connecting to server. Please try again');
+      if (err instanceof HttpErrorResponse) {
+        if (err.status === 401) {
+
+        } else if (err.status >= 400 && err.status <= 415) {
+          this.message.error(err.error.message);
+        }
+      } else if (err instanceof TimeoutError) {
+        this.message.error('Connection Timeout. Please try again later');
+      }
     });
   }
 
